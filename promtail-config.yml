@@ -1,0 +1,46 @@
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+clients:
+  - url: http://<PROMETHEUS-SERVER-PUBLIC-IP>:3100/loki/api/v1/push
+
+positions:
+  filename: /etc/promtail/positions.yml
+
+scrape_configs:
+  - job_name: system
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: varlogs
+          host: <<HOSTNAME>>
+          __path__: /var/log/*.log
+
+  - job_name: nginx
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: nginx
+          host: <<HOSTNAME>>
+          __path__: /var/log/nginx/*.log
+  
+  - job_name: apache
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: apache
+          host: <<HOSTNAME>>
+          __path__: /var/log/apache2/*.log
+
+  - job_name: containers
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: containers
+          host: <<HOSTNAME>>
+          __path__: /var/lib/docker/containers/*/*-json.log
