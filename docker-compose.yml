@@ -32,23 +32,23 @@ services:
     networks:
       - monitoring_network
 
-  nginx-prometheus-exporter:
-    image: nginx/nginx-prometheus-exporter:latest
-    container_name: ${PROJECT_NAME:-monitoring}-nginx_exporter
-    ports:
-      - "${NGINX_EXPORTER_PORT:-9113}:9113"
-    environment:
-      - SCRAPE_URI=http://${NGINX_STATUS_HOST:-localhost}:${NGINX_STATUS_PORT:-80}/stub_status
-    command:
-      - "-nginx.scrape-uri=${SCRAPE_URI}"
-    restart: unless-stopped
-    networks:
-      - monitoring_network
+#  nginx-prometheus-exporter:
+#    image: nginx/nginx-prometheus-exporter:latest
+#    container_name: ${PROJECT_NAME:-monitoring}-nginx_exporter
+#    ports:
+#      - "${NGINX_EXPORTER_PORT:-9113}:9113"
+#    environment:
+#      - SCRAPE_URI=http://${NGINX_STATUS_HOST:-localhost}:${NGINX_STATUS_PORT:-80}/stub_status
+#    command:
+#      - "-nginx.scrape-uri=${SCRAPE_URI}"
+#    restart: unless-stopped
+#    networks:
+#      - monitoring_network
   
   apache_exporter:
-    image: lusitaniae/apache-exporter:latest
+    image: bitnami/apache-exporter:latest
     container_name: ${PROJECT_NAME:-monitoring}-apache_exporter
-    command:
+    environment:
       - SCRAPE_URI=http://${APACHE_STATUS_HOST:-localhost}:${APACHE_STATUS_PORT:-80}/server-status?auto
     ports:
       - "${APACHE_EXPORTER_PORT:-9117}:9117"
