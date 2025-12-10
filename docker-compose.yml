@@ -37,25 +37,26 @@ services:
 #    container_name: ${PROJECT_NAME:-monitoring}-nginx_exporter
 #    ports:
 #      - "${NGINX_EXPORTER_PORT:-9113}:9113"
-#    environment:
-#      - SCRAPE_URI=http://${NGINX_STATUS_HOST:-localhost}:${NGINX_STATUS_PORT:-80}/stub_status
 #    command:
-#      - "-nginx.scrape-uri=${SCRAPE_URI}"
+#      - '--nginx.scrape-uri=http://host.docker.internal:80/status'
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
 #    restart: unless-stopped
 #    networks:
 #      - monitoring_network
-  
+
   apache_exporter:
     image: bitnami/apache-exporter:latest
     container_name: ${PROJECT_NAME:-monitoring}-apache_exporter
-    environment:
-      - SCRAPE_URI=http://${APACHE_STATUS_HOST:-localhost}:${APACHE_STATUS_PORT:-80}/server-status?auto
     ports:
       - "${APACHE_EXPORTER_PORT:-9117}:9117"
+    command:
+      - '--scrape_uri=http://host.docker.internal/server-status?auto'
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     restart: unless-stopped
     networks:
       - monitoring_network
-
 
   promtail:
     image: grafana/promtail:latest
