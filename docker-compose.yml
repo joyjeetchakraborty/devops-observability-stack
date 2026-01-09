@@ -33,31 +33,31 @@ services:
     networks:
       - monitoring_network
 
-#  nginx-prometheus-exporter:
-#    image: nginx/nginx-prometheus-exporter:latest
-#    container_name: ${PROJECT_NAME:-monitoring}-nginx_exporter
-#    ports:
-#      - "${NGINX_EXPORTER_PORT:-9113}:9113"
-#    command:
-#      - '--nginx.scrape-uri=http://host.docker.internal:80/status'
-#    extra_hosts:
-#      - "host.docker.internal:host-gateway"
-#    restart: unless-stopped
-#    networks:
-#      - monitoring_network
-
-  apache_exporter:
-    image: bitnami/apache-exporter:latest
-    container_name: ${PROJECT_NAME:-monitoring}-apache_exporter
+  nginx-prometheus-exporter:
+    image: nginx/nginx-prometheus-exporter:latest
+    container_name: ${PROJECT_NAME:-monitoring}-nginx_exporter
     ports:
-      - "${APACHE_EXPORTER_PORT:-9117}:9117"
+      - "${NGINX_EXPORTER_PORT:-9113}:9113"
     command:
-      - '--scrape_uri=http://host.docker.internal/server-status?auto'
+      - "--nginx.scrape-uri=http://host.docker.internal/status"
     extra_hosts:
       - "host.docker.internal:host-gateway"
     restart: unless-stopped
     networks:
       - monitoring_network
+
+#  apache_exporter:
+#    image: bitnami/apache-exporter:latest
+#    container_name: ${PROJECT_NAME:-monitoring}-apache_exporter
+#    ports:
+#      - "${APACHE_EXPORTER_PORT:-9117}:9117"
+#    command:
+#      - '--scrape_uri=http://host.docker.internal/server-status?auto'
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
+#    restart: unless-stopped
+#    networks:
+#      - monitoring_network
 
   promtail:
     image: grafana/promtail:latest
@@ -66,9 +66,7 @@ services:
       - "${PROMTAIL_PORT:-9080}:9080"
     volumes:
       - /var/log:/var/log
-      - /var/lib/docker/containers:/var/lib/docker/containers:ro
       - /etc/promtail:/etc/promtail
-      - /etc/promtail/positions.yml:/etc/promtail/positions.yml
     command:
       - --config.file=/etc/promtail/promtail-config.yml
     restart: unless-stopped

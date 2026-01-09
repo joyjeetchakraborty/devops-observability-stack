@@ -3,7 +3,7 @@ server:
   grpc_listen_port: 0
 
 clients:
-  - url: http://<PROMETHEUS-SERVER-PUBLIC-IP>:3100/loki/api/v1/push
+  - url: http://3.108.189.116:3101/loki/api/v1/push
 
 positions:
   filename: /etc/promtail/positions.yml
@@ -15,7 +15,7 @@ scrape_configs:
           - localhost
         labels:
           job: varlogs
-          host: <<HOSTNAME>>
+          host: <HOSTNAME>
           __path__: /var/log/*.log
 
   - job_name: nginx
@@ -24,16 +24,16 @@ scrape_configs:
           - localhost
         labels:
           job: nginx
-          host: <<HOSTNAME>>
+          host: <HOSTNAME>
           __path__: /var/log/nginx/*.log
-  
+
   - job_name: apache
     static_configs:
       - targets:
           - localhost
         labels:
           job: apache
-          host: <<HOSTNAME>>
+          host: <HOSTNAME>
           __path__: /var/log/apache2/*.log
 
   - job_name: containers
@@ -42,5 +42,5 @@ scrape_configs:
           - localhost
         labels:
           job: containers
-          host: <<HOSTNAME>>
+          host: <HOSTNAME>
           __path__: /var/lib/docker/containers/*/*-json.log
