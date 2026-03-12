@@ -1,3 +1,6 @@
+⭐ If you find this useful, please consider starring the repository.
+
+
 # DevOps Observability Stack
 
 A lightweight DevOps observability stack built using Docker Compose for collecting metrics, logs, and infrastructure monitoring.
