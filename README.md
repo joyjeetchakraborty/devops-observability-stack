@@ -93,3 +93,23 @@ This repository assumes an existing observability server running:
 - Alertmanager
 
 The monitored servers send metrics and logs to this central stack.
+
+
+## Screenshots
+
+### Grafana Infrastructure Dashboard
+
+![Grafana Dashboard](screenshots/Grafana-Dashboard.png)
+
+### Prometheus Targets
+
+![Prometheus Targets](screenshots/Prometheus-Targets.png)
+
+### Node Exporter Aggregation
+
+![Node-Exporter Dashboard](screenshots/Node-Exporter.png)
+
+
+## Architecture
+
+![Architecture Diagram](screenshots/observability-architecture.png)
